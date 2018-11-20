@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCToolRename", "NCToolRename\NCToolRename.csproj", "{EDA3D0E3-9053-4810-8DC7-EACCA98E6699}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestNCToolRename", "UnitTestNCToolRename\UnitTestNCToolRename.csproj", "{05C56CFC-A68B-4D74-B994-4605F7E5E581}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EDA3D0E3-9053-4810-8DC7-EACCA98E6699}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDA3D0E3-9053-4810-8DC7-EACCA98E6699}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDA3D0E3-9053-4810-8DC7-EACCA98E6699}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05C56CFC-A68B-4D74-B994-4605F7E5E581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05C56CFC-A68B-4D74-B994-4605F7E5E581}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05C56CFC-A68B-4D74-B994-4605F7E5E581}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05C56CFC-A68B-4D74-B994-4605F7E5E581}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
