@@ -1,8 +1,12 @@
-﻿using NCToolRename.Properties;
+﻿/*
+Developed 20.11.18 by NAF e-mail: alexnejchev@mail.ru
+*/
+using NCToolRename.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Deployment.Application;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -27,6 +31,16 @@ namespace NCToolRename
         {
             InitializeComponent();
             rootFolderTextBox.Text = Settings.Default.SelectedPath;
+
+            if (ApplicationDeployment.IsNetworkDeployed)
+            {
+                VersionToolStripStatusLabel.Text = string.Format("version: {0}", ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString());
+            }
+            else
+            {
+                VersionToolStripStatusLabel.Text = "Debug mode";
+            }
+
         }
 
         #endregion
@@ -62,26 +76,46 @@ namespace NCToolRename
 
             try
             {
+                this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+
+                Output(string.Format("Сканирование папки: {0}", rootFolderTextBox.Text));
                 FileSearch(rootFolderTextBox.Text, "*.h");
-                Output(string.Format("Кол-во найденных файлов: {0} шт", files.Count));
+                Output("Сканирование папки завершено!!!");
+                Output(string.Format("Кол-во обнаруженных файлов файлов: {0} шт", files.Count));
                 renameNCToolStripProgressBar.Maximum = files.Count;
 
-                foreach(var file in files)
-                {
-                    RenameToolsNC(file);
-                    renameNCToolStripProgressBar.Value++;
-                }
+                this.Cursor = System.Windows.Forms.Cursors.Default;
 
-                Output(string.Format("Кол-во обработанных файлов: {0} шт", renameNCToolStripProgressBar.Value));
-
-                if (MessageBox.Show("Инструмент во всех файлах переименован", this.Text,MessageBoxButtons.OK,MessageBoxIcon.Information)== DialogResult.OK)
+                if (MessageBox.Show("Переименовать обнаруженные файлы?", this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    renameNCToolStripProgressBar.Value = 0;
+                    Output("Процесс переименования инструмента запущен ...");
+
+                    this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+
+                    foreach (var file in files)
+                    {
+                        RenameToolsNC(file);
+                        renameNCToolStripProgressBar.Value++;
+                    }
+
+                    Output("Процесс переименования инструмента завершен!!!");
+                    Output(string.Format("Кол-во обработанных файлов: {0} шт", renameNCToolStripProgressBar.Value));
+
+                    if (MessageBox.Show("Инструмент во всех файлах переименован", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
+                    {
+                        renameNCToolStripProgressBar.Value = 0;
+                    }
+
+                    this.Cursor = System.Windows.Forms.Cursors.Default;
                 }
-                
+                else
+                {
+                    Output("Отмена пользователя");
+                }            
             }
             catch (Exception ex)
             {
+                this.Cursor = System.Windows.Forms.Cursors.Default;
                 Output(ex.Message + Environment.NewLine + ex.StackTrace);
             }            
         }
@@ -97,6 +131,8 @@ namespace NCToolRename
         private void Output(string message)
         {
             outputRichTextBox.AppendText(message + Environment.NewLine);
+            outputRichTextBox.SelectionStart = outputRichTextBox.Text.Length;
+            outputRichTextBox.ScrollToCaret();
         }
 
         /// <summary>
@@ -131,9 +167,9 @@ namespace NCToolRename
         }
 
         /// <summary>
-        /// 
+        /// Метод переименовывает все TOOL в указанном файле
         /// </summary>
-        /// <param name="pathFile"></param>
+        /// <param name="pathFile">полный путь к файлу NC с расширением *.h</param>
         private void RenameToolsNC(string pathFile)
         {
             if (!File.Exists(pathFile)) throw new ArgumentException("file isn't exists");
@@ -141,8 +177,8 @@ namespace NCToolRename
             try
             {
                 string format = "\"ULA{0:d6}\"";
-                string tempPathfile = pathFile + "_tmp";
-                File.Copy(pathFile, tempPathfile);
+                //string tempPathfile = pathFile + "_tmp";
+                //File.Copy(pathFile, tempPathfile);
 
                 List<string> lines = new List<string>();
 
@@ -162,8 +198,7 @@ namespace NCToolRename
                         sw.WriteLine(RenameCommandToolLine(line, format));
                     }
                 }
-
-                File.Delete(tempPathfile);
+                //File.Delete(tempPathfile);
             }
             catch (Exception)
             {
@@ -178,7 +213,7 @@ namespace NCToolRename
         /// <param name="line">строка УП</param>
         /// <param name="format">формат переименования</param>
         /// <example>format = "ULA{0:d6}"</example>
-        /// <returns></returns>
+        /// <return>строку NC</returns>
         public string RenameCommandToolLine(string line, string format)
         {
             string[] words = line.Split(' ');

@@ -35,7 +35,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.renameNCToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.springToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.versionToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.VersionToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,6 +78,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.outputRichTextBox.Location = new System.Drawing.Point(12, 67);
             this.outputRichTextBox.Name = "outputRichTextBox";
+            this.outputRichTextBox.ReadOnly = true;
             this.outputRichTextBox.Size = new System.Drawing.Size(555, 345);
             this.outputRichTextBox.TabIndex = 3;
             this.outputRichTextBox.Text = "";
@@ -87,7 +88,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.renameNCToolStripProgressBar,
             this.springToolStripStatusLabel,
-            this.versionToolStripStatusLabel});
+            this.VersionToolStripStatusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 415);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(579, 22);
@@ -106,11 +107,11 @@
             this.springToolStripStatusLabel.Size = new System.Drawing.Size(247, 17);
             this.springToolStripStatusLabel.Spring = true;
             // 
-            // versionToolStripStatusLabel
+            // VersionToolStripStatusLabel
             // 
-            this.versionToolStripStatusLabel.Name = "versionToolStripStatusLabel";
-            this.versionToolStripStatusLabel.Size = new System.Drawing.Size(84, 17);
-            this.versionToolStripStatusLabel.Text = "version: 1.0.0.0";
+            this.VersionToolStripStatusLabel.Name = "VersionToolStripStatusLabel";
+            this.VersionToolStripStatusLabel.Size = new System.Drawing.Size(84, 17);
+            this.VersionToolStripStatusLabel.Text = "version: 1.0.0.0";
             // 
             // FormMain
             // 
@@ -141,7 +142,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripProgressBar renameNCToolStripProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel springToolStripStatusLabel;
-        private System.Windows.Forms.ToolStripStatusLabel versionToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel VersionToolStripStatusLabel;
     }
 }
 
