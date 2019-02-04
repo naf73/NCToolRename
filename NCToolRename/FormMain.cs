@@ -216,27 +216,40 @@ namespace NCToolRename
         /// <return>строку NC</returns>
         public string RenameCommandToolLine(string line, string format)
         {
+            if(line.Split(' ').Count() > 0 && int.TryParse(line.Split(' ')[0], out int numberBlock))
+            {
+                // убираем произвольные пробелы, оставляем только один для разделителя
+                line = string.Join(" ", line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+            }           
+
             string[] words = line.Split(' ');
 
-            if(words[1] == "TOOL" && words[2] == "CALL" ||
-               words[1] == "TOOL" && words[2] == "DEF")
+            if (words.Length >= 3)
             {
-                int.TryParse(words[3], out int numberTool);
-
-                if(numberTool == 0)
+                if (words[1] == "TOOL" && words[2] == "CALL" ||
+                   words[1] == "TOOL" && words[2] == "DEF")
                 {
-                    return line;
+                    int.TryParse(words[3], out int numberTool);
+
+                    if (numberTool == 0)
+                    {
+                        return line;
+                    }
+                    else
+                    {
+                        words[3] = string.Format(format, numberTool);
+                        return string.Join(" ", words);
+                    }
                 }
                 else
                 {
-                    words[3] = string.Format(format, numberTool);
-                    return string.Join(" ", words);
-                }               
+                    return line;
+                }
             }
             else
             {
                 return line;
-            }                
+            }
         }
 
         #endregion
